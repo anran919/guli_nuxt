@@ -7,3 +7,10 @@ export function getBannerPageList(params) {
     params
   })
 }
+
+export function getIndexData() {
+  return request({
+    url: `/service_edu/front/index`,
+    method: 'GET'
+  })
+}
