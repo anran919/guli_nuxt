@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <el-button type="primary">哈哈哈哈</el-button>
+  <div class="sign">
+    <nuxt/>
   </div>
 </template>
 
