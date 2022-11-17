@@ -31,18 +31,18 @@
           [{ required: true, message: '请输入验证码', trigger: 'blur' }]"
           class="input-prepend restyle no-radius"
           prop="code">
-          <div style="width: 100%;display: block;float: left;position: relative"> <el-input v-model="params.code" type="text" placeholder="验证码"/>
+          <div style="width: 100%;display: block;float: left;position: relative">
+            <el-input v-model="params.code" type="text" placeholder="验证码"/>
             <i class="iconfont icon-phone"/>
           </div>
           <div
             class="btn"
             style="position:absolute;right: 0;top: 6px;width:40%;">
             <a
-              :value="codeTest"
               href="javascript:"
               type="button"
               style="border: none;background-color: none"
-              @click="getCodeFun()">{{ codeTest }}</a>
+              @click="getCodeFun()">{{ codeText }}</a>
           </div>
         </el-form-item>
         <el-form-item
@@ -63,7 +63,9 @@
             @click="submitRegister()">
         </div>
         <p class="sign-up-msg">点击 “注册” 即表示您同意并愿意遵守简书<br>
-          <a target="_blank" href="http://www.jianshu.com/p/c44d171298ce">用户协议</a> 和<a target="_blank" href="http://www.jianshu.com/p/2ov8x3">隐私政策</a> 。
+          <a target="_blank" href="http://www.jianshu.com/p/c44d171298ce">用户协议</a>
+          和
+          <a target="_blank" href="http://www.jianshu.com/p/2ov8x3">隐私政策</a> 。
         </p>
       </el-form>
       <!-- 更多注册方式 -->
@@ -93,30 +95,62 @@
 <script>
 import '~/assets/css/sign.css'
 import '~/assets/css/iconfont.css'
-import {} from '@/api/register'
+import { getAuthCodeByMobile, registerMemeber } from '~/api/register'
 export default {
   name: 'Register',
   layout: 'sign',
   data() {
     return {
       params: {},
-      sending: false,
+      loading: false,
       second: 60,
-      codeTest: '获取验证码'
+      codeText: '获取验证码'
     }
   },
   methods: {
     getCodeFun() {
-
+      if (this.loading) { return }
+      // prop 换成你想监听的prop字段
+      this.$refs.userForm.validateField('mobile', (errMsg) => {
+        if (errMsg === '') {
+          const mobile = this.params.mobile
+          this.loading = true
+          getAuthCodeByMobile(mobile).then(res => {
+            this.$message.success('验证码已发送!')
+            this.timeDown()
+          })
+        }
+      })
     },
     timeDown() {
-
+      const interval = setInterval(() => {
+        --this.second
+        this.codeText = this.second + '秒后重新发送'
+        if (this.second<1) {
+          clearInterval(interval)
+          this.loading = false
+          this.second = 60
+          this.codeText = '获取验证码'
+        }
+      }, 1000)
     },
     submitRegister() {
-
+      this.$refs['userForm'].validate((valid) => {
+        if (valid) {
+          const member = { ...this.params }
+          registerMemeber(member).then(res => {
+            // 提示注册成功
+            this.$message.success('注册成功!')
+            this.$router.push({ path: '/login' })
+          })
+        }
+      })
     },
-    checkPhone() {
-
+    checkPhone(rule, value, callback) {
+      if (!(/^1[34578]\d{9}$/.test(value))) {
+        return callback(new Error('手机号码格式不正确'))
+      }
+      return callback()
     }
   }
 }

@@ -27,38 +27,39 @@
         </ul>
         <!-- / nav -->
         <ul class="h-r-login">
-          <li id="no-login">
-            <a href="/login" title="登录">
-              <em class="icon18 login-icon">&nbsp;</em>
-              <span class="vam ml5">登录</span>
-            </a>
-            |
-            <a href="/register" title="注册">
-              <span class="vam ml5">注册</span>
-            </a>
+          <li v-if="!user.id" id="no-login">
+            <span>
+              <a href="/login" title="登录">
+                <em class="icon18 login-icon">&nbsp;&nbsp;</em>
+                <span class="vam ml5">登录</span>
+              </a>
+              |
+              <a href="/register" title="注册">
+                <span class="vam ml5">注册</span>
+              </a>
+            </span>
           </li>
-          <li id="is-login-one" class="mr10 undis">
+          <li v-if="user.id" class="mr10">
             <a id="headerMsgCountId" href="#" title="消息">
               <em class="icon18 news-icon">&nbsp;</em>
             </a>
             <q class="red-point" style="display: none">&nbsp;</q>
           </li>
-          <li id="is-login-two" class="h-r-user undis">
+          <li v-if="user.id" class="h-r-user">
             <a href="#" title>
               <img
-                src="~/assets/img/avatar-boy.gif"
+                :src="user.avatar"
                 width="30"
                 height="30"
                 class="vam picImg"
-                alt
               >
-              <span id="userName" class="vam disIb"/>
+              <span id="userName" class="vam disIb">{{ user.nickname }}</span>
             </a>
             <a
               href="javascript:void(0)"
               title="退出"
-              onclick="exit();"
-              class="ml5">退出</a>
+              class="ml5"
+              @click="logout">退出</a>
           </li>
           <!-- /未登录显示第1 li；登录后显示第2，3 li -->
         </ul>
@@ -135,5 +136,32 @@ import '~/assets/css/reset.css'
 import '~/assets/css/theme.css'
 import '~/assets/css/global.css'
 import '~/assets/css/web.css'
-export default {}
+import cookie from 'js-cookie'
+export default {
+  name: 'DefaultLyaout',
+  data() {
+    return {
+      user: {}
+    }
+  },
+  computed: {
+
+  },
+  created() {
+    this.init()
+  },
+  methods: {
+    init() {
+      const ck = cookie.get('guli_ucenter')
+      if (ck) {
+        this.user = JSON.parse(ck)
+      }
+    },
+    logout() {
+      cookie.set('guli_ucenter', '', { domain: 'localhost' })
+      cookie.set('guli_token', '', { domain: 'localhost' })
+      window.location.href = '/'
+    }
+  }
+}
 </script>

@@ -20,7 +20,8 @@ module.exports = {
     { src: '~/plugins/nuxt-ui-plugin.js', ssr: false }
   ],
   css: [
-    'swiper/dist/css/swiper.css'
+    'swiper/dist/css/swiper.css',
+    'element-ui/lib/theme-chalk/index.css'
   ],
   /*
   ** Customize the progress bar color
