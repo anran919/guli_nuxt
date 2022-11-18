@@ -5,7 +5,7 @@
       <div class="swiper-wrapper">
         <div v-for="b in banners " :key="b.id" class="swiper-slide" style="background: #040B1B;">
           <a :href="b.linkUrl" target="_blank">
-            <img :alt="b.title" :src="b.imageUrl">
+            <img :alt="b.title" :src="b.imageUrl" fit="cover">
           </a>
         </div>
       </div>
