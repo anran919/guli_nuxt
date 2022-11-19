@@ -9,13 +9,13 @@
             class="card"
             shadow="hover"
           >
-            <a :href="`/teacher/${v.id}`" style="display: flex;flex-direction: column;align-items: center;">
+            <nuxt-link :to="`/teacher/${v.id}`" style="display: flex;flex-direction: column;align-items: center;">
               <el-avatar :size="130" :src="v.avatar" class="avatar"/>
               <h3 style="margin-top:10px;font-weight: bold" >{{ v.name }}</h3>
               <h5 style="margin-top:10px;word-break: break-all;text-overflow: ellipsis;-webkit-line-clamp: 2; overflow: hidden;height: 36px;"> {{ v.intro }}</h5>
               <el-divider/>
               <h6 style="height:16px; color: gray">{{ v.career||'' }}</h6>
-            </a>
+            </nuxt-link>
           </el-card>
         </el-col>
       </el-row>

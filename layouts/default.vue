@@ -10,21 +10,21 @@
         </h1>
         <div class="h-r-nsl">
           <ul class="nav">
-            <router-link to="/" tag="li" active-class="current" exact>
+            <nuxt-link to="/" tag="li" active-class="current" exact>
               <a>首页</a>
-            </router-link>
-            <router-link to="/course" tag="li" active-class="current">
+            </nuxt-link>
+            <nuxt-link to="/course" tag="li" active-class="current">
               <a>课程</a>
-            </router-link>
-            <router-link to="/teacher" tag="li" active-class="current">
+            </nuxt-link>
+            <nuxt-link to="/teacher" tag="li" active-class="current">
               <a>名师</a>
-            </router-link>
-            <router-link to="/article" tag="li" active-class="current">
+            </nuxt-link>
+            <nuxt-link to="/article" tag="li" active-class="current">
               <a>文章</a>
-            </router-link>
-            <router-link to="/qa" tag="li" active-class="current">
+            </nuxt-link>
+            <nuxt-link to="/qa" tag="li" active-class="current">
               <a>问答</a>
-            </router-link>
+            </nuxt-link>
           </ul>
           <!-- / nav -->
           <ul class="h-r-login">
@@ -180,3 +180,8 @@ export default {
   }
 }
 </script>
+<style>
+a{
+  text-decoration: none !important;
+}
+</style>

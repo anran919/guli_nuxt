@@ -1,9 +1,9 @@
 <template>
   <div class="main">
     <div class="title">
-      <a class="active" href="/login">登录</a>
+      <nuxt-link class="active" to="/login">登录</nuxt-link>
       <span>·</span>
-      <a href="/register">注册</a>
+      <nuxt-link to="/register">注册</nuxt-link>
     </div>
     <div class="sign-up-container">
       <el-form ref="userForm" :model="user">

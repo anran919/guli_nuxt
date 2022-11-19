@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <el-main style="padding-left: 40px; padding-right: 40px;">
-      <h2>课程介绍</h2>
+      <h3>讲师介绍</h3>
       <el-divider/>
       <div style="display: flex;">
         <div style="padding: 50px">
@@ -9,7 +9,7 @@
         </div>
         <div style="display: flex;flex-direction: column;justify-content: center;">
           <div>
-            <h2>{{ teacher.name }} {{ teacher.career }}</h2>
+            <h2>{{ teacher.name }} {{ ['高级讲师','资深讲师'][teacher.level] }}</h2>
             <el-tag type="info" style="margin-top: 10px;">{{ teacher.intro }}</el-tag>
           </div>
           <br>
@@ -26,6 +26,24 @@
           </div>
         </div>
       </div>
+      <h3>讲师课程</h3>
+      <el-divider/>
+      <el-row :gutter="20" >
+        <el-empty v-if="!courseList.length>0" description="暂无数据"/>
+        <el-col v-for=" v in courseList " :span="6" :key="v.id" style="margin-bottom:20px;">
+          <el-card
+            :body-style="{ padding: '10px'}"
+            shadow="hover">
+            <div style="display: flex;flex-direction: column;align-items: center;">
+              <el-avatar :size="130" :src="v.cover"/>
+              <h3 style="margin-top:10px;font-weight: bold" >{{ v.title }}</h3>
+              <h5 style="margin-top:10px;"> 价格: {{ v.price }}</h5>
+              <el-divider/>
+              <h6 style="height:20px; color: gray">课时数:{{ v.lessonNum }}</h6>
+            </div>
+          </el-card>
+        </el-col>
+      </el-row>
     </el-main>
   </el-container>
 </template>
@@ -34,8 +52,8 @@
 import { getTeacherInfoById } from '@/api/teacher'
 export default {
   asyncData({ params, err }) {
-    debugger
-    return getTeacherInfoById('1189390295668469762').then(res => {
+    const id = params.id
+    return getTeacherInfoById(id).then(res => {
       const { teacher, courseList } = res.data.data
       return {
         courseList,
