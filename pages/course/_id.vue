@@ -47,11 +47,25 @@
             <h4>课程介绍</h4>
             <p style="margin-top: 15px" v-html="info.description"/>
             <br>
-
           </el-card>
           <el-card style="height:300px;margin-top: 15px;">
             <h4>课程大纲</h4>
-            <el-tree :data="chapters" :default-expanded-keys="expandedKeys" :props="treeProps" node-key="id" style=" margin-top: 15px"/>
+            <el-tree
+              :data="chapters"
+              :props="treeProps"
+              default-expand-all
+              node-key="id"
+              style=" margin-top: 15px"
+            >
+              <div slot-scope="{data}" >
+                <div style="padding:15px">
+                  <span>{{ data.title }}</span>
+                  <nuxt-link v-show="data.videoSourceId" :to="`/video/${data.videoSourceId}`" target ="_blank">
+                    立即观看
+                  </nuxt-link>
+                </div>
+              </div>
+            </el-tree>
           </el-card>
         </el-col>
         <el-col :span="6">
@@ -87,14 +101,13 @@ export default {
     }
   },
   computed: {
-    expandedKeys() {
-      return this.chapters.map(v => v.id)
-    }
+    // expandedKeys() {
+    //   return this.chapters.map(v => v.id)
+    // }
   },
   asyncData(context) {
     const { params } = context
     const id = params.id
-    // const id = '1591818545522556929'
     return getCourseById(id).then(res => {
       const { chapters, cvo } = res.data.data
       return {
